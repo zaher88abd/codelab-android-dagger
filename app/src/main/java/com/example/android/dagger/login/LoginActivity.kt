@@ -40,13 +40,14 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         // Creates ViewModel and listens for the loginState LiveData
-        loginViewModel = LoginViewModel((application as MyApplication).userManager)
+        loginViewModel = LoginViewModel((application as MyApplication).appComponent.userManager())
         loginViewModel.loginState.observe(this, Observer<LoginViewState> { state ->
             when (state) {
                 is LoginSuccess -> {
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }
+
                 is LoginError -> errorTextView.visibility = View.VISIBLE
             }
         })
